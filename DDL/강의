@@ -117,3 +117,11 @@ CREATE TABLE table_name[(column_name [DEFAULT expr] [, ....] )] AS SUBQUERY;
 		4) 생성 시점에 컬럼 레벨에서 제약조건 생성 가능 -> REFERENCES 제약 조건 불가.
 				-> 나머지는 반영이 되지 않으므로, 추후 별도로 제약조건을 지정해주어야 함.
 	+ BUT 자주 쓰이진 않는다. WHY? -> 차라리 이럴거면 VIEW를 만들고 말지.
+
+예제)
+CREATE TABLE TABLE_SUBQUERY1
+AS
+	SELECT EMP_ID,EMP_NAME,SALARY, DEPT_NAME, JOB_TITLE
+	FROM EMPLOYEE
+	LEFT JOIN DEPARTMENT USING (DEPT_ID)
+	LEFT JOIN JOB USING (JOB_ID);
