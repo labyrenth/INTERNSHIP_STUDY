@@ -1,5 +1,34 @@
 5.2 뷰
 5.2.1. 개념
 - 하나 또는 하나 이상의 테이블/뷰에 포함된 데이터 부분 집합을 나타내는 논리적인 객체 -> 선택적인 정보만 제공 가능 (뷰에 대한 권한 설정을 통해!)
-- 자체적으로 데이터를 포함하지 않는다.
+- 주로 읽기 전용(SELECT) 테이블을 만들기 위해 사용된다.
+- 자체적으로 데이터를 포함하지 않는다. -> 베이스 테이블에서 데이터를 가져온다.
+  + 보통 VIEW에서는 INSERT, UPDATE, DELETE는 사용 불가능. SELECT만 가능.
+  + 단일 뷰는 DML 가능. 복합뷰는 PL/SQL을 이용, 프로시저를 생성해서 (지정된 트리거가 만족될 시, 실행 계획을 절차적으로 작동) 이를 가능하도록 할 수 있기는 하다.
 - 베이스 테이블(BASE TABLE) : 뷰를 통해 보여지는 데이터를 포함하고 있는 실제 테이블
+
+- 뷰를 생성할 때 사용하는 서브쿼리는 일반적인 SELECT 구문을 사용.
+- 생성된 뷰는 테이블처럼 취급함.
+
+CREATE OR REPLACE VIEW view_name  -> view_name에 해당하는 view가 없으면 새로 생성, 있으면 수정 함.
+
+* 뷰의 컬럼 별칭 사용? -> 뷰 정의 부분과 서브쿼리 부분에서 지정 가능하다.
+CREATE OR REPLACE VIEW V_EMP_DEPT_JOB(ENM, DNM, TITLE)
+AS	SELECT EMP_NAME, DEPT_NAME, JOB_TITLE
+    FROM EMPLOYEE
+	  LEFT JOIN DEPARTMENT USING (DEPT_ID)
+	  LEFT JOIN JOB USING (JOB_ID)
+	  WHERE JOB_TITLE = '사원';
+	
+CREATE OR REPLACE VIEW V_EMP_DEPT_JOB
+AS	SELECT  EMP_NAME AS ENM,
+			      DEPT_NAME AS DNM,
+			      JOB_TITLE AS TITLE
+	  FROM EMPLOYEE
+	  LEFT JOIN DEPARTMENT USING (DEPT_ID)
+	  LEFT JOIN JOB USING (JOB_ID)
+	  WHERE JOB_TITLE = '사원';
+    
+의 결과는 같다.
+
+* VIEW는 물리적인 저장장소를 쓰는것이 아닌, 논리적인 TABLE 이라는 것을 기억하자.
