@@ -1,0 +1,17 @@
+6.1 UPDATE
+- 조건에 맞는 행(또는 여러 행)의 컬럼 값을 갱신할 수 있음.
+- 구문
+  UPDATE table_name
+  SET column_name = value [ , column = value ... ]
+  [ WHERE condition ];
+  + 만약 조건을 주지 않았을 경우, 대상 컬럼의 값을 전부 일괄변경
+  
+- UPDATE와 무결성 제약조건
+  + 데이터 무결성이 손상되는 변경 작업은 허용되지 않음
+  
+6.2 INSERT, DELETE
+1) INSERT : 행 삽입
+2) DELETE : 조건을 만족하는 행 제거
+  DELETE [FROM] table_name
+  [WHERE condition];
+  + 만약 조건을 주지 않았을 경우, 대상 컬럼의 값을 전부 일괄삭제
