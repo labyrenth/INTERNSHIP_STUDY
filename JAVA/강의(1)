@@ -11,7 +11,7 @@ APPLICATION
 -----
  H.W
  
- - 운영체제에 무관하게 JVM 에 의존. -> 어느 운영체제이든간에 JVM만 있으면 프로그램 하나 만들어도 잘 돌아간다!
+ - Java ByteCode는 JVM 위에 구축된다. -> 어느 운영체제이든간에 JVM만 잘 돌아가면 프로그램을 하나만 만들어도 잘 돌아간다!
  
  *.JAVA --COMPLIE--> *.CLASS (JAVA의 실행파일, byte code) --INTERPRITER--> OUTPUT
  
