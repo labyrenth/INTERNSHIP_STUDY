@@ -126,3 +126,29 @@ this.name = name;
 Ex) int num = 3; 문장에서 값 3이 메모리 공간 어딘가에 존재해야 num 변수에 그 값을 복사할 수 있다.
  즉 숫자가 변수에 대입되는 과정 = 1) 변수에 할당될 숫자값이 어딘가 메모리에 쓰여있음 2) 변수 메모리에 해당하는 value가 들어있는 literal pool의 key 값이 저장됨.
 
+** Java에서 참조형 타입이면서 일반 타입처럼 사용할 수 있는 유일한 변수 : String
+import test.model.str.StringBiz;
+
+public class StringMain {
+
+	private StringBiz biz;
+	
+	public static void main(String[] args) 
+	{
+		biz = new StringBiz();
+	}
+}
+
+-> 오류난다. why? Memory에 로드되는 시점의 문제.
+  + Static은 로딩되면서 생성되고, non static 필드는 그 다음에 생성된다.
+  즉, static 사용 시점에 사용하고자 하는 인스턴스의 정의가 생성되어 있는지 안 되어 있는지 알 수 없기때문에 static에 인스턴스 변수를 사용할 수 없다.
+
+# JAVA 메모리 관리 구조 #
+1) TEXT AREA    : 기계어로 된 프로그램의 로직이 위치하는 메모리 영역
+2) STATIC AREA  : 전역적 성격의 static 형 필드가 생성되는 메모리 영역
+3) HEAP AREA    : new 연산자를 통해서 인스턴스 필드가 생성되는 메모리 영역
+4) STACK AREA   : 함수의 실행시 생성되는 함수 변수 (로컬변수, 자동 변수)가 생성되는 메모리 영역.
+
+--------------------------------------------------------------------
+※ equals Operator와 == 연산자의 차이
+  + ==는 주소, equals는 값을 비교한다.
