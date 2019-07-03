@@ -22,7 +22,52 @@ OOP(Object-oriented programming)
   2) HAS - A 관계 : 클래스 내에 다른 클래스를 "포함" 함으로써 기능적인 것을 사용하고자 했을 때, HAS-A 관계를 이용한다. -> 하위/상위 아닌 동등한 관계
   - 상속이란게 다 좋은데 유연성이 떨어질 수 있음 ~> 이로 인해 프레임워크가 나옴.
   
+  ※ 상속 그 자체로는 엄청난 의미는 없고, 다형성과 함께해야 비로소 빛을 발한다!
+  
 3) 다형성
-  - 
+  - 관리의 효율성을 위해서 여러개의 데이터 타입을 하나의 데이터 타입으로 관리해야 할 필요성이 있지 않을까?
+    + 전제 조건으로, 상속 관계에 있어야지만 가능. -> 상속 관계도 없는 여러개의 데이터 타입들을 하나의 데이터 타입으로 묶을 수 없다.
+  - 다형성의 종류
+    1) 객체 다형성 : 하나의 데이터 타입으로 여러개의 자식 데이터 타입 생성이 가능.
+    Ex)
+      PersonVo std02 = new StudentVO(1, "일일이", 11, "일산구","하나");
+		  PersonVo tch02 = new TeacherVO(2, "둘둘이", 22, "이촌","둘");
+		  PersonVo emp02 = new EmployeeVO(3, "삼삼이", 33, "삼각지","셋");
+      
+    But 변수의 type은 Complie시에 결정. 부모타입은 자식에 대한 접근이 불가능 하기 때문에, 다음 코드는 오류가 난다.
+    System.out.format("%s\n%s\n%s\n", std02.stuInfo(), tch02.teacherInfo(),emp02.EmpInfo());
+    ~> 이 문제를 해결할 방법? 캐스팅!
+    * 이때 형변환시 작은형 -> 큰 형(업캐스팅)으로는 묵시적 변환이 가능하지만, 큰 형 -> 작은형(다운캐스팅)으로 변환시엔 명시를 해 주어야 함.
+    Ex) int -> long 은 묵시적 변환 가능하지만, long -> int는 캐스팅 해주어야.
+    - 부모 클래스가 자식클래스보다 큰 형 이라는 것을 기억하고, 이러한 상속 관계에서도 캐스팅이 적용된다는 것이 매우 중요하다!!!!!!!!!!
+    System.out.format("%s\n%s\n%s\n", ((StudentVO)std02).stuInfo(), ((TeacherVO)tch02).teacherInfo(),((EmployeeVO)emp02).EmpInfo());
+    는 정상적으로 적용.
+    
+    2) 
+    3) 
+    
+  ☆ 배열과 다형성
+  - JAVA에서 배열은 객체로 취급된다.
+  - [] 를 통해 배열을 표시.
+  - 고정 길이를 가져야 한다. ~> RUNTIME 시점에 RESIZING이 불가능.
+  - 같은 타입만 담을 수 있다.
+  - INDEX는 0부터 시작.
+  - int [] intarr = new int[10]; 시에, 40byte의 크기를 가진 저장공간이 할당되며, 이매 intarr는 intarr[0]의 주소를 저장.
+  
+  - 이때 배열은 두가지 타입으로 나뉜다.
+    1) 단일 데이터 타입을 담는 배열   : Homogenous Array
+    2) 다양한 데이터 타입을 담는 배열 : Heterogenous Array
+  - PersonVo[] personArr = new PersonVo[10];
+    StudentVO std01 = new StudentVO(1, "일이", 11, "일산구","하나");
+		TeacherVO tch01 = new TeacherVO(2, "둘이", 22, "이촌","둘");
+		EmployeeVO emp01 = new EmployeeVO(3, "삼이", 33, "삼각지","셋");
+		personArr[0] = std01;
+		personArr[1] = tch01;
+		personArr[2] = emp01;   => 자동으로 Upcasting 됨!
+    
+    personArr[0].stuInfo(); -> 에러난다. Upcasting되서.
+    => Instanceof : 런타임시에 리얼 타입을 체크하는 연산자.
+    System.out.println(personArr[0] instanceof StudentVO); 은 true 뜬다.
+    
 4) 추상화
   - 
