@@ -43,7 +43,9 @@ OOP(Object-oriented programming)
     System.out.format("%s\n%s\n%s\n", ((StudentVO)std02).stuInfo(), ((TeacherVO)tch02).teacherInfo(),((EmployeeVO)emp02).EmpInfo());
     는 정상적으로 적용.
     
-    2) 
+    2) 매개변수의 다형성
+	    (1) 오버로딩(하나의 클래스 내에 같은 이름을 가지는 메서드가 매개변수의 타입과 갯수를 달리 해서 여러개 가질 수 있음. 내부기능은 같아야.)
+	    (2) 
     3) 
     
   ☆ 배열과 다형성
@@ -69,5 +71,8 @@ OOP(Object-oriented programming)
     => Instanceof : 런타임시에 리얼 타입을 체크하는 연산자.
     System.out.println(personArr[0] instanceof StudentVO); 은 true 뜬다.
     
+※ 현업에서 STATIC은 쓰지 마라. FINAL(상수)는 가능.
+- 상수는 무조건 public이어야 하고, 초기에 선언해주어야 한다.
+
 4) 추상화
   - 
