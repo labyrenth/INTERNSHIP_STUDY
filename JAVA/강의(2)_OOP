@@ -135,12 +135,50 @@ public interface TV
 // TV tv = new TV(); -> 얘는 불가능. why? 인터페이스는 인스턴스를 만들 수 없다.
 TV[] tv = new TV[10]; -> 얘는 가능. why? '배열객체'를 만드는 것이므로!
 
-public abstract class STV implements TV
+public class TVFactory 
 {
-	public abstract void change();
-
-	public void powerOn()
+	private static TVFactory instance;
+	// 생성자를 private로 바꿈으로써 외부에서 접근 불가능!
+	
+	private TV[] ary;
+	
+	private TVFactory()
 	{
-		System.out.println("STV");
+		ary = new TV[2];
+		ary[0] = new STV();
+		ary[1] = new LTV();
 	}
+	
+	/*
+	 * Singleton 패턴. 남이 직접 생성은 못하게 하고,
+	 *  Class 단위에서 Static으로 단 하나만 만들어서 보내버리자!
+	 */
+	
+	public static TVFactory getInstance()
+	{
+		if(instance == null)
+		{
+			instance = new TVFactory();
+		}
+
+		return instance;
+	}
+	
+	/* 사용자에게 직접적인 타입을 던지기 보다는, 간접적으로 인터페이스를 던져버림! */
+	public TV getTV(String brand)
+	{
+		return (brand.equals("samsung"))? ary[0] : ary[1] ;
+	}
+}
+
+public class TVMain {
+
+	public static void main(String[] args) 
+	{
+		//TVFactory를 받아옴.
+		TVFactory factory = TVFactory.getInstance();
+		TV tv = factory.getTV("lg");
+		tv.turnOn(); tv.turnOff();
+	}
+	// 이러한 패턴의 추가로 인해, 의존도가 현저히 낮아졌음을 볼 수 있다. -> 객체 생성도 main이 직접하지 않고 Factory가 알아서 함!
 }
