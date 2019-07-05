@@ -33,7 +33,8 @@ try //굳이 catch하고만 같이 붙기보단 try-final도 붙을 수 있다.
 catch( ~(발생한 예외) ) //
 {
     /*
-    *   try단에서 예외가 발생했을때만 
+    *   try단에서 예외가 발생했을때만 시행. 여러개를 사용 가능하다.
+    *   만약 여러 예외를 처리할 경우, 계층에서 가장 낮은 에러부터 기술해야한다. 잘못하면 에러가 난다!
     */
 }
 finally
@@ -60,5 +61,7 @@ public void sayNick(String nick) {
         }
     }
 
-> 내부에서 exception을 처리할때 사용
--> 
+> 내부에서 exception을 '발생' 시킬때 사용.
+
+* Exception의 부모 클래스는 Throwable.
+- 원하는 Exception이 없을 경우, 새로 만들어도 된다.
