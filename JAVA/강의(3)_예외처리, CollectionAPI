@@ -1,0 +1,64 @@
+* 제어의 역전이란 일반적인 제어 구조와는 달리, 오브젝트가 자신이 사용할 오브젝트를 생성, 관계 설정, 사용등의 제어를 직접 하지 않습니다.
+
+이러한 제어 권한을 다른 대상에게 위임하여, 위임받은 오브젝트가 이 모든 제어 권한을 갖도록 합니다.
+
+스프링이 제어권을 가지고 직접 만들고 관계를 부여하는 오브젝트를 '빈(Bean)'이라고 부릅니다.
+
+빈을 사용함으로써 설계가 깔끔해지고 유연성 및 확장성이 좋아진다는 장점을 가질 수 있게됩니다.
+
+* 패턴
+- 이러이러한 문제가 발생했을때 이러이러한 방법으로 해결하면 된다!를 정리해둔 것이 패턴.
+- 23개 디자인 패턴이 존재.
+
+1. 예외처리
+- Java에서 예외는 Exception으로 표기
+- 예외가 처리했을때 이를 처리하는 방법이 존재.
+- Exception은 항상 친절하게 대해주자 ^^;;
+
+* Stream : 데이터가 지나다닐수 있는 통로
+
+- Java는 발생 할 수 있는 모든 예외를 클래스 형식으로 관리 ~> 다 아는건 현실적으로 불가능.
+
+Object <--- Throwable <--- Exception  --- complie : 컴파일 단계부터 오류가 난 경우. 보통 문법오류가 대부분.
+                                       |- runtime : 컴파일은 잘 넘어갔는데, 실행중에 예외가 터진 경우. 이 경우 처리가 안되어있으면 프로그램은 종료.
+                                       
+1) 예외처리
+try //굳이 catch하고만 같이 붙기보단 try-final도 붙을 수 있다.
+{
+  /* 
+  * code1, code2, code3... -> 예외가 발생할 수 있는 영역을 Try 블록으로 잡는다! 예외가 발생? try 블럭 바깥으로 나온다.
+  * Ex) 만약 code2에 문제가 있다면, code3은 실행되지 않는다.
+  */
+}
+catch( ~(발생한 예외) ) //
+{
+    /*
+    *   try단에서 예외가 발생했을때만 
+    */
+}
+finally
+{
+    /*
+    *   try단에서 예외가 발생하든 말든 최종적으로 수행.
+    *   하지만 finally 단에서도 예외가 발생할 수 있으므로, 보통 TCFTC 의 형태로 많이 사용.
+    */
+}
+
+1) Throws :
+public void b() throws XXXException {}
+> b()를 호출한 곳에서 FoolException을 처리하도록 예외를 위로 던짐!
+
+2) throw : 
+public void sayNick(String nick) {
+        try {
+            if("fool".equals(nick)) {
+                throw new FoolException();
+            }
+            System.out.println("당신의 별명은 "+nick+" 입니다.");
+        }catch(FoolException e) {
+            System.err.println("FoolException이 발생했습니다.");
+        }
+    }
+
+> 내부에서 exception을 처리할때 사용
+-> 
