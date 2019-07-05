@@ -84,7 +84,7 @@ public static void main(String[] args) throws Exception
 - CollectionAPI의 장점
 	1) 고정길이가 없다. ~> Size() 메소드 이용. 길이 자체가 요소의 갯수.
 	2) Same Type 아니어도 된다. ~> Object를 담는다!
-	3) 
+	3) index가 없다.
 
 * Java에서의 Boxing/UnBoxing
 - 8개의 Wrapper Type ~> 각각 해당하는 기본 타입을 객체 타입으로 바꾼다.
@@ -96,3 +96,27 @@ Collection(Interface) --- Set(Interface)	- HashSet... (HashpSet은 Key/Value로 
 		       
 ** interface가 interface를 상속받을때 extends를 쓴다!
 
+ArrayList ist = new ArrayList(); -> 클래스 안에 배열이 있고, 인덱스도 있고 알아서 관리되는 그런 클래스.
+
+- 보통 검색의 속도를 빠르게 하는 용도 -> Set / 순차적으로 나열 -> List
+- 웃기게도 Set의 Value에 Collection을 넣을수 있어서, 순차적으로 가져오기도 함.
+
+* Generics
+- 
+public static void main(String[] args)
+	{
+		List<String> list = new ArrayList<String>();
+		//Complie 시점에 타입의 일관성을 보장.
+		//또한 get(); 할때 Object가 아닌 해당 타입으로 나오기 때문에, 쓸데없는 upCasting downCasting 할 필요 x
+		list.add(10);			//에러
+		list.add("hello");
+		list.add(true);			//에러
+		list.add('A');			//에러
+		list.add(new ExceptionObj());	//에러
+		
+		System.out.println(list);
+		/* JAVA의 Object는 toString 메서드를 가지고있는데
+		이 경우 list는 toString을 자기 자신의 구성요소에 전부 실행함.
+		toString이 묵시적으로 생략*/
+		System.out.println(list.toString());
+	}
