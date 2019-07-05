@@ -33,14 +33,14 @@ try //굳이 catch하고만 같이 붙기보단 try-final도 붙을 수 있다.
 catch( ~(발생한 예외) ) //
 {
     /*
-    *   try단에서 예외가 발생했을때만 시행. 여러개를 사용 가능하다.
+    *   try단에서 예외가 발생했을때만 호출, 실행된다. 여러개를 사용 가능하다.
     *   만약 여러 예외를 처리할 경우, 계층에서 가장 낮은 에러부터 기술해야한다. 잘못하면 에러가 난다!
     */
 }
 finally
 {
     /*
-    *   try단에서 예외가 발생하든 말든 최종적으로 수행.
+    *   try단에서 예외가 발생하든 말든 throws 하기 전에 수행. 이후 throw!
     *   하지만 finally 단에서도 예외가 발생할 수 있으므로, 보통 TCFTC 의 형태로 많이 사용.
     */
 }
@@ -65,3 +65,18 @@ public void sayNick(String nick) {
 
 * Exception의 부모 클래스는 Throwable.
 - 원하는 Exception이 없을 경우, 새로 만들어도 된다.
+
+public static void main(String[] args) throws Exception
+	{
+			ExceptionObj obj = new ExceptionObj();
+	
+			obj.runtimeE();
+			System.out.println("main end~");
+			
+			// >에러가 뜬다. Why? Exception을 받아줄 친구가 없어.
+	}
+
+* main에서 throw할경우 JVM이 받는다.
+-------------------------------------------
+2. CollectionAPI
+- 자동 인덱싱 지원, 다양한 타입에 적용 가능. 우와 편하다~!
