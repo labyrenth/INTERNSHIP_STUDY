@@ -101,22 +101,57 @@ ArrayList ist = new ArrayList(); -> 클래스 안에 배열이 있고, 인덱스
 - 보통 검색의 속도를 빠르게 하는 용도 -> Set / 순차적으로 나열 -> List
 - 웃기게도 Set의 Value에 Collection을 넣을수 있어서, 순차적으로 가져오기도 함.
 
-* Generics
-- 
 public static void main(String[] args)
 	{
 		List<String> list = new ArrayList<String>();
-		//Complie 시점에 타입의 일관성을 보장.
-		//또한 get(); 할때 Object가 아닌 해당 타입으로 나오기 때문에, 쓸데없는 upCasting downCasting 할 필요 x
-		list.add(10);			//에러
+		list.add("hello"); //단일쓰레드 환경에선 ArrayList가 낫다.
 		list.add("hello");
-		list.add(true);			//에러
-		list.add('A');			//에러
-		list.add(new ExceptionObj());	//에러
+		list.add("hello1");
+		list.add("hello2");
 		
-		System.out.println(list);
-		/* JAVA의 Object는 toString 메서드를 가지고있는데
-		이 경우 list는 toString을 자기 자신의 구성요소에 전부 실행함.
-		toString이 묵시적으로 생략*/
-		System.out.println(list.toString());
+		List<String> vec = new Vector<String>();
+		vec.add("bye"); //멀티쓰레드 환경에선 Vector가 낫다.
+		
+		Map<Integer, List<String>> map = new HashMap<Integer, List<String>>();
+		map.put(1,list);
+		map.put(2,vec);
+		
+		// Map을 루프 돌리는 방법
+		Iterator<String> ite = list.iterator();
+		while(ite.hasNext())
+		{
+			System.out.println(ite.next());
+		}
+		
+		// MAP을 루프 돌리는 방법 : EntrySet, keySet
+		Set<Integer> set = map.keySet();
+		Iterator<Integer> keyite = set.iterator();
+		
+		while(keyite.hasNext())
+		{
+			List<String> result01 = map.get(keyite.next());
+			System.out.println(result01);
+		}
 	}
+
+**
+List<String> list = new ArrayList<String>();
+list.add("hello"); //단일쓰레드 환경에선 ArrayList가 낫다.
+
+List<String> vec = new Vector<String>();
+vec.add("hello"); //멀티쓰레드 환경에선 Vector가 낫다. Thread Safty 코드가 있다.
+
+* 삽입&삭제가 빈번하게 일어난다면 LinkedList를 이용하는게 더 낫다.
+* for문은 for/foreach/iterator 세종류가 있음
+※ Iterator
+- 자바의 컬렉션 프레임웍에서 컬렉션에 저장되어 있는 요소들을 읽어오는 방법을 표준화 한 것.
+- Iterator를 사용하면, 어떤 컬렉션이라도 동일한 방식으로 접근이 가능하여 그 안에 있는 항목들에 접근할 수 있는 방법을 제공.
+1) hasNext()	: 읽어올 요소가 남아이는지 확인하는 메소드
+2) next()	: 다음 데이터를 반환.
+3) remove()	: next()로 읽어온 요소를 삭제.
+- 메소드의 호출 순서 : hasNext() -> next() -> remove();
+
+* Iterator는 한번 순환하고 나서는 커서의 위치가 맨 마지막으로 가기 때문에 재사용이 불가능ㅏ다ㅣㄸ
+
+* Generics
+- 클래스 내부에서 사용할 데이터 타입을 외부에서 지정하는 기법
