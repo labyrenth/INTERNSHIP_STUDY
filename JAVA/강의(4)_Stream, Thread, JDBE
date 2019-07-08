@@ -51,7 +51,7 @@ Presentation Layer	| Business Layer	| persistance Layer	|
 ------------------------|-----------------------|-----------------------|
 1) Servlet.java		| xxxService(Interface)	| xxxDAO(Interface)	|
 - Controller (xxDTO)	|			|			|
-2) *.jsp		| xxxServiceInpull	| xxxDAOInpull		|
+2) *.jsp		| xxxServiceImplements	| xxxDAOImplements	|
 - View			|			|			|
 
 Browser --Requset-> View <-> Controller <-> Model
@@ -66,3 +66,11 @@ Browser --Requset-> View <-> Controller <-> Model
 	+ 단일 진입 지점을 만들게 되므로, 관리가 더 편해지게 된다.
 	+ 이 대문을 Front-Controller 또는 퍼사드(facade) 패턴
 		++ facade 패턴 : 같은 어떤 소프트웨어의 다른 커다란 코드 부분에 대한 간략화된 인터페이스를 제공하는 객체
+
+* FrontController가 다양한 Controller들을 제어해 주어야 하는데 어떻게 하나? 
+- 다양한 Controller를 하나의 인터페이스 Controller로 모으고, 중간에 Singleton Factory를 하나 둔다.
+	+ Factory는 FrontController에게 Controller 를 넘기고, FrontController가 메소드를 실행하면 각 Controller의 내부 구성을 전혀 몰라도 가능.
+	+ 이때 Controller는 동일한 이름의 메서드에 대해 비슷한 기능으로 구현하고 있어야 함.
+
+---------------------------------------
+* View-FrontController-Factory-Ctrl-service-DAO-service-Ctrl-FrontController-View-메인에서 짠
