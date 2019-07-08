@@ -43,16 +43,14 @@ Browser		| WAS		| Controller
 		| listener	|
 ----------------|---------------|----------------
 html5		|		| 
-css3		|		|
-
-			|			MODEL			|
-			|-----------------------------------------------|
-Presentation Layer	| Business Layer	| persistance Layer	|
-------------------------|-----------------------|-----------------------|
-1) Servlet.java		| xxxService(Interface)	| xxxDAO(Interface)	|
-- Controller (xxDTO)	|			|			|
-2) *.jsp		| xxxServiceImplements	| xxxDAOImplements	|
-- View			|			|			|
+css3		|		|			|			MODEL			|
+				|			|-----------------------------------------------|
+				| Presentation Layer	| Business Layer	| persistance Layer	|
+				|-----------------------|-----------------------|-----------------------|
+				|1) Servlet.java	| xxxService(Interface)	| xxxDAO(Interface)	|
+				|- Controller (xxDTO)	|			|			|
+				|2) *.jsp		| xxxServiceImplements	| xxxDAOImplements	|
+				|- View			|			|			|
 
 Browser --Requset-> View <-> Controller <-> Model
 	<-Response-
@@ -74,3 +72,16 @@ Browser --Requset-> View <-> Controller <-> Model
 
 ---------------------------------------
 * View-FrontController-Factory-Ctrl-service-DAO-service-Ctrl-FrontController-View-메인에서 짠
+
+** JAVA에서 DB연동 과정	-> 6개의 절차가 모두 예외를 발생시킨다... -> TRY/CATCH를 알아야 함!
+1. DB의 DRIVER 로딩 : 실행 중 단 한번만 연결되면 된다.
+2. CONNECTION	-URL,USER,PWD : 전역변수로 두면 종료하고 다시 연결을 못하기 때문에, CONNECTION ~ CLOSE 는 지역변수로 두어야 함.
+3. STATEMENT(SQL 구문 포함)
+4. 실행 (STATEMENT를 DB에 날림!)
+	1) EXECUTEQUERY()	: RESULTSET 반환	-> SELECT 실행
+	2) EXECUTEUPDATE()	: INT 반환	-> DML 실행
+5. RESULTSET 핸들링 작업	:
+6. CLOSE();
+-> 6개의 절차 중 하나라도 안되면 실행이 안된다. 이 6개 과정을 묶어놓은 FRAMEWORK : MYBATIS
+
+WAS가 하는 일 -> 커넥션 풀을 만들어서 활성화된 커넥션을 쓰고 반납받기 등등을 한다.
