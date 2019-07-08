@@ -1,0 +1,39 @@
+- 사실 깊게 파고들면 책한권 뚝딱이긴 한데, 이번 강의에선 가볍게 나갈것.
+
+Stream : 데이터가 지나다닐 수 있는 통로.
+	+ Scanner는 System이란 변수가 가지고 있는 in을 집어 넣었다.(참조타입일 것이고) 
+		++ 이때 in은 InputStream 타입. 1Byte를 입력받는다! 하지만 한글을 넣어도 깨지지 않았다... -> 내부적으로 Chaining 했다.
+		++ 다만 우리는 편하게 Scanner sc = new Scanner(System.in); 을 통해서 사용.
+	+ 내부적으로 Stream의 역할을 해 줄 수 있는 객체가 있었을 것.
+- 보편적으로 Byte와 Chracter 형식으로 데이터 입/출력. 
+	+ 이때 한글로 Byte 계열의 데이터 입/출력을 하면 깨진다. Why? 2Byte 이므로!
+- java.io.* 에 잔뜩 들어있다.
+- 보편적인 Stream은 단방향. ~> 입출력을 하고 싶으면 두개의 Stream을 만들어야 한다!!!
+- Stream은 꼭 사용 한 후 Close해야 함. > 만약 Close 안할 경우 문제가 생길 수 있다.
+
+크게 3가지 -> 콘솔을 이용한 입출력, 파일을 이용한 입출력, 원격에 있는 다른쪽과 통신(네트워크, 소켓 통신이 필요.
+- 
+
+Byte          | char
+--------------|--------------
+xxxStream     | xxxReader/Writer
+
+- xxxReader(xxxStream) ~> 매개변수로 받을 수 있다.
+
+Source <---데이터 입출력을 위한 통로---> Destination
+       -------------Read------------->
+       <-----------Write--------------
+       
+- 로컬이 아닌, 물리적인 네트워크를 통해서 전달할 시 통신 객체를 어떻게 할 것인가?
+	+ xxxVO를 통해, 객체에 변수 값을 담고, Stream을 통해 전달.
+	+ Byte 계열에 Object로 객체타입을 가지는 Input/Output의 Stream이 있다.
+	+ 1Byte지만 Object를 전달 가능. -> 보내고자 하는 객체를 직렬화(serializable)이라는 인터페이스를 Implements 해서 마킹한 뒤 보내면 Object가 1byte로 쪼개져서 전달.
+		++ 마킹 인터페이스 : 인터페이스인데 추상 메서드가 없는 인터페이스 -> 그냥 Implements만 하면 된다!
+		++ 보내고자 하는 객체를 실타래, Stream을 바늘구멍이라 생각하면 Serializable를 통해 실타래를 풀어 실로 만들고, 바늘구멍을 통과 해 목적지에 도착한 뒤, 목적지에서 다시 실타래로 만드는 것.
+
+- 즉, 최종적으로 Stream을 통해 보낼 수 있는 객체는 3개
+1) Byte
+2) Chracter
+3) Serializable을 통해 Byte화 된 Object
+
+- 만약 빅데이터 관련해서 통신해야한다면, Java와 Python간에 소켓통신을 해야한다.
