@@ -38,3 +38,31 @@ Source <---데이터 입출력을 위한 통로---> Destination
 3) Serializable을 통해 Byte화 된 Object
 
 - 만약 빅데이터 관련해서 통신해야한다면, Java와 Python간에 소켓통신을 해야한다.
+
+Browser		| WAS		| Controller
+		| listener	|
+----------------|---------------|----------------
+html5		|		| 
+css3		|		|
+
+			|			MODEL			|
+			|-----------------------------------------------|
+Presentation Layer	| Business Layer	| persistance Layer	|
+------------------------|-----------------------|-----------------------|
+1) Servlet.java		| xxxService(Interface)	| xxxDAO(Interface)	|
+- Controller (xxDTO)	|			|			|
+2) *.jsp		| xxxServiceInpull	| xxxDAOInpull		|
+- View			|			|			|
+
+Browser --Requset-> View <-> Controller <-> Model
+	<-Response-
+	
+- 이때 Servlet이나 *.jsp는 엄연히 백엔드에 속한다. ~> 서버 계열의 언어로 친다.
+- Browser는 화면을 Decoration 하는 역할을 한다.
+
+* NodeJS 같이 JavaScript를 Controller로 사용하는 방법도 가능.
+* URL을 Servlet에서 처리되는데, 사용자 리퀘스트 당 1개의 Servlet이 생성되므로 서로 다른 리퀘스트가 들어올 경우 리퀘스트의 종류와 같은 수의 Servlet이 만들어져야 한다.
+	+ 사용자의 리퀘스트 자체가 바로 Servlet과 직접 통신하는 것이 아니라, '대문' 을 만들면 된다.
+	+ 단일 진입 지점을 만들게 되므로, 관리가 더 편해지게 된다.
+	+ 이 대문을 Front-Controller 또는 퍼사드(facade) 패턴
+		++ facade 패턴 : 같은 어떤 소프트웨어의 다른 커다란 코드 부분에 대한 간략화된 인터페이스를 제공하는 객체
