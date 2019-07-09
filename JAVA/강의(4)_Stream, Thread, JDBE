@@ -32,6 +32,11 @@ Source <---데이터 입출력을 위한 통로---> Destination
 	+ 1Byte지만 Object를 전달 가능. -> 보내고자 하는 객체를 직렬화(serializable)이라는 인터페이스를 Implements 해서 마킹한 뒤 보내면 Object가 1byte로 쪼개져서 전달.
 		++ 마킹 인터페이스 : 인터페이스인데 추상 메서드가 없는 인터페이스 -> 그냥 Implements만 하면 된다!
 		++ 보내고자 하는 객체를 실타래, Stream을 바늘구멍이라 생각하면 Serializable를 통해 실타래를 풀어 실로 만들고, 바늘구멍을 통과 해 목적지에 도착한 뒤, 목적지에서 다시 실타래로 만드는 것.
+	+ 하지만, 객체의 데이터 중 일부의 데이터는(패스워드와 같은 보안) 여러가지 이유로 전송을 하고 싶지 않을 수 있다. 이러한 변수는 직렬화에서 제외해야 되며, 이를 위해서 변수에 transient를 선언한다.
+	또한, 직렬화 조건 중 객체의 멤버들 중에 Serializable 인터페이스 구현되지 않은 객체가 있으면, 직렬화 할 수 없다.(NonSerializableException)
+	직렬화 해야 되는 객체 안의 객체 중 Serializable 인터페이스가 구현되지 않으면서 전송하지 않아도 되는 객체 앞에는 transient 를 선언해준다. 그러면 직렬화 대상에서 제외되므로 해당 객체는 직렬화가 가능해진다.
+
+- 직렬화된 정보를 보낼때에는 FileOutputStream과 ObjectOutputStream을 통해 byte단위로 보내야 한다.
 
 - 즉, 최종적으로 Stream을 통해 보낼 수 있는 객체는 3개
 1) Byte
