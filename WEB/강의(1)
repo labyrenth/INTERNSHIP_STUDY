@@ -115,12 +115,75 @@ Servlet	= java + html 로써 확장자는 .java	-> 그래도 JAVA가 메인이�
 
 ---------------------------------------------------------------
 
-http://server_ip:port/contextName/servletName or xxxxx.jsp
+* 기본형 > http://server_ip:port/contextName/servletName or xxxxx.jsp
 
-Servlet			: 
+Servlet			: 최상위. 5개의 메서드가 있다.
 |
-Generic Servlet		
+GenericServlet		
 |
-http Servlet		
+httpServlet		
 
+* 프로그램 실행에 영향을 끼치는 Servlet의 메서드 3개
+	1) init()	: 최초 리퀘스트 시 단 한번 호출됨.
+	2) service()	: 사용자가 호출할때마다 계속해서 호출됨.		-> 가장 중요!! ---doGet(), doPost()로 나눌 수 있다. (보안상의 이유)
+	3) destroy()
 
+** Get() 방식 과 Host 방식
+- GET과 POST는 HTTP프로토콜을 이용해서 서버에 무언가를 전달할 때 사용하는 방식
+- GET은 주소줄에 값이 ?뒤에 쌍으로 이어붙고 POST는 숨겨져서(body안에) 보내진다. ~> Query String이 보이면 Get방식. 아니면 Post 방식!
+	EX) http://www.shinsegae-inc.com/SincPageLink.do?link=business/its_ito
+		1) http://www.shinsegae-inc.com/SincPageLink.do : URL(계층화된 위치 식별자) or URI(인터넷에 있는 자원을 나타내는 유일한 주소)
+		2) link=business/its_ito : Query String
+		-> 두개의 경계 : ?
+
+GET 방식 : http://server_ip:port/contextName/xxxxx?key=value&key=value
+
+---------------------------------------------
+
+* HTML 태그 <body> </body> 안에 있는것이 실제로 웹브라우저 상에서 보이는 것!
+- http://127.0.0.1:8888/firstWEB/greeting.jsp
+- http://IP주소/Project이름(Context_root_path)/webapp_안의_.jsp파일
+
+** 제어의 역행
+- 이제부터 Servlet의 Instance를 우리가 생성할 수 없다. -> Container가 만들것!
+- 사용자의 Request는 Thread로 처리.
+
+* Servlet의 Life Cycle
+1) 요청이 오면, Servlet 클래스가 로딩되어 요청에 대한 Servlet 객체가 생성.
+2) 서버는 init() 메소드를 호출해서 Servlet을  초기화.
+3) service() 메소드를 호출해서 Servlet이 브라우저의 요청을 처리.
+4) service() 메소드는 특정 HTTP 요청(GET, POST 등)을 처리하는 메서드 (doGet(), doPost() 등)를 호출.
+5) 서버는 destroy() 메소드를 호출하여 Servlet을 제거.
+
+- doGet(HttpServletRequest request, HttpServletResponse response) ~> Thread가 request, response 함께 가져온다.
+- doGet의 출력통로(Stream) ~> PrintWriter out = response.getWriter();
+	+ out.print("<><>"); -> 브라우저에서 표기!!!
+
+**
+response.sendRedirect("/greeting.jsp"); 를 Servlet에 치고 http://10.149.179.207:8888/greeting.do 를 URL에 치니까
+http://10.149.179.207:8888/greeting.jsp가 등장.
+
+RequestDispatcher view = request.getRequestDispatcher("/greeting.jsp");
+view.forward(request,response);로 입력하고 http://10.149.179.207:8888/greeting.do 를 URL에 치니까
+http://10.149.179.207:8888/greeting.do 로 등장.
+
+* URL을 받는 방식
+1) redirect 방식
+	+ web container는 redirect 명령이 들어오면 '웹 브라우저에게' '다른 페이지로 이동하라' 라는 명령을 내린다.
+	+ 웹 브라우저는 URL을 지시된 주소로 바꾸고 그 주소로 이동한다.
+	+ 다른 web container에 있는 주소로 이동이 가능하다.
+	+ 새로운 페이지에서는 request, response 객체가 새롭게 생성된다. ~> Web Container 내부에서 자원 공유 불가.
+		++ 자원 공유를 위해선 QueryString을 생성해야한다.
+	
+2) forward 방식
+	+ web container 차원에서의 페이지 이동으로, 웹 브라우저는 다른 페이지로 이동했는지 알 수 없다.
+	+ 동일한 web container에 있는 페이지로만 이동이 가능.
+	+ 현재 실행중인 페이지와 forward에 의해 호출될 페이지는 request, response 객체를 공유한다.
+
+Ex) 게시판 어플리케이션을 작성해 사용자가 보낸 요청정보를 이용하여 글쓰기 기능을 수행하는 CGI(Common GateWay Interface)가 있다면,
+이 CGI의 응답 페이지는 redirect를 사용해야 한다.
+Why? -> 사용자가 실수 혹은 고의로 글쓰기 CGI 응답 페이지에서 새로고침을 눌렀을때
+1) redirect	: 처음 글을 작성할 때 보냈던 요청정보는 존재하지 않고 다른 URL로 요청을 보내기 때문에 글쓰기가 여러번 수행되지 않음.
+2) forward	: 요청정보가 그대로 살아있기 때문에, 똑같은 글이 여러번 등록됨.
+
+~> DB에 변화가 생기는 요청은 redirect, 시스템에 변화가 생기지 않는 단순조회의 경우 forward 방식으로 응답하는 것이 바람직.
