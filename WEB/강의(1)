@@ -113,6 +113,14 @@ Servlet	= java + html 로써 확장자는 .java	-> 그래도 JAVA가 메인이�
 
 - 모든 설정은 *.xml 로 저장된다.(리소스)
 
+---------------------------------------------------------------
 
+http://server_ip:port/contextName/servletName or xxxxx.jsp
+
+Servlet			: 
+|
+Generic Servlet		
+|
+http Servlet		
 
 
