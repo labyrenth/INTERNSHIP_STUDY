@@ -84,6 +84,30 @@ main()
 	2-1) 모든 작업을 수행하지 못했을 경우, '대기(Block)' 상태로 전환 후 '실행대기(Runnable)' 상태로 전환됨.
 3) 작업을 모두 수행했을 경우, '사망(Dead)' 상태가 된다.
 
+* synchonized 블럭
+@Override
+	public void run() 
+	{
+		synchronized(monitor)
+		{
+			for(int i = 0; i<10; i++)
+			{
+				monitor.printChar(charValue);
+			}
+		}
+	}
+-
+
+* 스레드간 메서드의 선후관계를 지키고 싶을때
+Ex) Product가 market의 add(), Consumer가 market의 get()을 호출한다고 하자.
+이때 Product의 add()가 되어야 Consumer의 get()을 시행할 수 있다.
+-> Consumer의 get()이 먼저 시행되면, 이를 'wait' 시켜야 한다.
+	+ 이때 wait를 notify하고, scheduler는 product의 add()를 우선적으로 작업.
+	+ product의 add()가 무사히 됐을 경우, 다시 notify해서 wait 중인 Consumer를 깨운다.
+		++ But Consumer가 A,B의 여럿이라면...? notify로는 A, B 둘 중 누구를 먼저 깨울지 모르고 Consumer가 계속 들어오면 누구 한명은 영원히 기다릴수도 있다.
+		++ notifyAll -> 대기중인 모든 Consumer에게 이를 알림!
+	+ 스레드 상태 조정 메소드 : join, sleep, wait, notify, notifyall, interrupt(처리중인 다른 Thread를 kill 해버림)
+
 -------------------------------------------------------------------------------------------------------------------------------------
 
 Browser		| WAS		| Controller
