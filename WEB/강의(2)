@@ -38,6 +38,8 @@ FrontController : Servlet
 
 <script></script> -> BOM / DOM 으로 객체를 관리 한다는것만 알아두자.
 
+
+
 * MVC 패턴에선 무조건 페이지는 Controller를 거쳐야 한다. ( = 데이터가 필요한 경우, Controller를 통해 가져와야 한다.) 
 index.jsp 같은 경우 데이터를 가져와야 할 일이 있다면
 <script>
@@ -60,3 +62,32 @@ index.jsp 같은 경우 데이터를 가져와야 할 일이 있다면
 		
 		-> 무조건 get방식밖에 안된다.
 * redirect라도 현업에선 바로 페이지를 호출하는것이 아니다. Why? jsp 파일 직접 노출
+
+* 테이블에 정의되는 column 이름 / VO의 변수 이름 / input 태그에서의 name 세개는 맞춰줄것!
+
+* webapp/lib 안에 Library를 넣어주어야 한다.
+
+---------------------------
+
+HTML 안의 <body></body> 안의 내용을 Document로 보고, 이는 Tree의 형태로 관리된다. 최상위 노드 : HTML
+
+Front_end를 관리하는 것 = Script
+
+-* JSP의 기본액션태그 *-
+1) <%@	: 지시자(Directive) 태그	- page, include, taglib
+2) <%!	: 선언문(Declarations) 태그	- 변수, 메서드 선언.
+3) <%	: 스크립트릿(Scriptlet) 태그	- 자바의 메서드를 사용할 수 있다. BUT 마지막에 세미콜론 넣으면 안된다.
+4) <%=	: 표현식(Expression) 태그	- 출력할 때 사용
+
+-이거 형식이 너무 이질적인데 JSP에 안쓰면 안돼? > JSTL!
+<tag> 형식. 데이터 출력 ${ } = EL
+
+* JSTL은 standard.jar가 필요하다.
+
+** JSTL은 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="별명" %> 으로 선언해 주어야 한다.
+
+* stateless : 사용자의 상태정보를 저장하지 못하는 프로토콜
+
+* session, cookie와 차이
+1) session	: 데이터가 서버쪽에 저장. 객체를 저장.
+2) cookie	: 데이터가 클라이언트 쪽에 저장, 문자열만 저장.
