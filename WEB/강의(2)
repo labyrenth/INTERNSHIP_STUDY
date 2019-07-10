@@ -27,3 +27,5 @@ request : head/body/tail 세 부분으로 구성.
 * HTML : 구조, 스타일 / CSS : 데이터
 
 * JSON : JSON (JavaScript Object Notation)은 경량의 DATA-교환 형식이다. 이 형식은 사람이 읽고 쓰기에 용이하며, 기계가 분석하고 생성함에도 용이하다. 다른 언어간 자료 공유에도 사용. Ex)Java와 JavaScript간 통신에 사용
+
+* Native App(Ex_모바일)은 비동기 방식으로 데이터를 전달해 주어야 한다.
