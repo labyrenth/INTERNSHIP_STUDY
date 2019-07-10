@@ -31,3 +31,32 @@ request : head/body/tail 세 부분으로 구성.
 * Native App(Ex_모바일)은 비동기 방식으로 데이터를 전달해 주어야 한다.
 
 * Container : 웹 서버 안의 실행환경.
+
+FrontController : Servlet
+
+* 스프링에서는 자바코드가 사라지고 설정으로 대신. XML : Schema 기반의 설정. / Annotaion : Code 기반의 설정.
+
+<script></script> -> BOM / DOM 으로 객체를 관리 한다는것만 알아두자.
+
+* MVC 패턴에선 무조건 페이지는 Controller를 거쳐야 한다. ( = 데이터가 필요한 경우, Controller를 통해 가져와야 한다.) 
+index.jsp 같은 경우 데이터를 가져와야 할 일이 있다면
+<script>
+	location.href = "main.do";
+</script>
+로 main.do를 호출하도록 만듦.
+
+** 서버와 통신하는 단 두가지 방법 -> form 과 a href
+	<form method = "post" action = "./test.do">
+		<input type = "text" name = "id" id="id"><br/>
+		<input type = "text" name = "pwd" id="pwd"><br/>
+		<input type = "submit" value = "전송"/>
+	</form>
+
+		name : Action에 해당하는 페이지로 전달하는 파라미터로 사용 ~> request.getParameter(String name)으로 호출.
+		id : 웹페이지 안에서 변수를 참조할때 쓰는 이름	
+		-> get/post 둘 다 가능.
+	<hr/>
+	<a href="./test.do?id=jaeyeong&pwd=j2y">링크</a>
+		
+		-> 무조건 get방식밖에 안된다.
+* redirect라도 현업에선 바로 페이지를 호출하는것이 아니다. Why? jsp 파일 직접 노출
