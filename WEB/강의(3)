@@ -77,3 +77,16 @@ $("#btn").click
 	1) text
 	2) html
 	3) append
+
+$.ajax
+	({
+		url		: ,
+		type		: ,		get / post 방식 결정.
+		data		: ,		도큐먼트에서 서버로 스풀 될 객체를 지정.
+		dataType		: ,		default로 JSON 타입.
+		success		: function(obj)	서버에서 내린 데이터가 obj로 들어감.
+		{
+	
+		}
+	});
+
