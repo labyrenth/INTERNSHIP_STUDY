@@ -1,0 +1,79 @@
+* .jsp 의 Script
+- 다양한 언어 기반으로 확장이 가능하다. ~> 상황에 따라 다양한 스크립트를 써야할 수 있다는 점을 유의하자.
+- jQuery는 HTML의 클라이언트 사이드 조작을 단순화 하도록 설계된 크로스 플랫폼의 자바스크립트 라이브러리.
+- Script는 인터프리터 기반 언어.
+	+ 변수의 타입이 존재하지 않는다. 이때 Java의 Object -> Script의 Object의 형식으로 변경해야 함.
+
+* Script를 사용하는 이유
+1) Front-End 쪽에서 Document(= *.jsp 파일 하나)를 건드리기 위함.
+- 페이지는 멈춰있는 상태(=서버와 통신하지 않는 상태)에서 Script를 통해 Document의 구조나 표현을 변경하거나 유효성을 체크할 수 있도록 함.
+
+2) Script를 이용해서 서버와 통신이 가능하다.
+- Anchor Tag나 Home Tag를 이용한 방법 말고도 Script를 통해서 서버와의 통신이 가능.
+- Script를 통한 서버와의 통신 두가지
+	(1) 페이지는 정적으로 멈춰있는 상태에서 이벤트가 터져 서버와 통신해야 할 시 Script를 통해서 통신.
+	- 이때 Script를 통한 서버의 통신은 응답(response)객체가 존재하지 않고 요청(Request)객체만 있으며, 이때 응답도 Request 객체가 함.
+		+ 비동기 XML 통신. (AJAX) 이었는데 요즘은 JSON 쓴다.
+	(2) 요청에 의한 page Reloading시 Reloading된 페이지에 존재하는 스크립트가 Session이나 request scope에 있는 데이터를 쓰려면,
+	서버에서 데이터를 JSON화 시켜 Session이나 request scope에 넣어서 전달해야 한다!
+		+ 크로스 도메인 이라고도 부름.
+			++ 두개는 뭔 차이? 페이지 Reloading이 되냐 안되냐의 차이. Script를 통해서는 Page reloading이 일어나지 않는다.
+
+- orgjson.jar에 java의 객체를 json화 된 객체로 바꿀수 있는 클래스들이 존재.
+- 보편적으로 body쪽에 라이브러리가 필요할때 불러온다. Head에 다 몰아넣으면 loading할때 느려질 수 있음.
+
+<div id="result"></div>
+<button id = "btn">click!</button>
+<hr/>
+<input type = "text" name="box1" id="box1"></input>
+<input type = "text" name="box2" id="box2" value = "test"></input>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script type = "text/javascript">
+	<%-- 스크립트의 변수 지정 방식. key-value 방식으로 하나의 Class를 생성!--%>
+	obj = {id : "JaeYeong", pwd : "J2Y"}; 
+	<%-- JAVA의 ary 처럼 사용.--%>
+	ary = [
+		{id : "JaeYeong1", pwd : "J1Y"},
+		{id : "JaeYeong2", pwd : "J2Y"},
+		{id : "JaeYeong3", pwd : "J3Y"}, 
+		{id : "JaeYeong4", pwd : "J4Y"} 
+	];	
+	<%--ready 자체도 하나의 load event.--%>
+	$(document).ready(function(){
+		<%--input의 값은 .val을 써야.--%>
+		$("#box1").val("ready~set~go!");
+
+		<%--prop를 통해 Tag의 속성을 설정 가능하다.--%>
+		$("#box2").prop("value","JJY");
+
+		$("#btn").click(function(){
+			//console.log(obj);
+			//$("#result").text(obj.id+" "+obj.pwd);
+
+			txt = "";
+			//ary의 값을 각각 obj에 담겠다. idx는 인덱스.
+			$.each(ary,function(idx,obj){
+				txt += ary;
+				$("#result").html(ary);
+				//$("#result").append("<H1>"+obj.id + " " + obj.pwd+"</H1>");
+				//txt += "<H1>"+idx+" : "+ary[ary.length-(idx+1)].id + " " + ary[ary.length-(idx+1)].pwd+"</H1>";
+			});
+		});
+	});
+</script>
+
+** 코드 설명
+$()	: Jquery를 사용, document의 요소에 접근한다는 것을 알린다. = 선택자
+$	: Jquery를 직접 사용.
+
+$(document) : documnet(현재 문서의 body 부분)에 접근하겠다고 선언.
+.ready : 문서가 다 로드되고 Jquery 사용하기 위해 준비.
+
+* Jquery는 문서에서 발생할 수 있는 모든 이벤트를 함수로 만들어두었다.
+$("#btn").click
+- # : id를 통해 document를 찾겠다.
+
+* Jquery에서 내용 출력하기 위한 함수 3개
+	1) text
+	2) html
+	3) append
