@@ -48,3 +48,49 @@ web.xml안에
 	+ <dependencies>: 프로젝트에서 사용되는 라이브러리들을 지정합니다.
 	+ <exclusions>	: 여기에 있는 녀석을 쓰지 않겠다! -> 보통 의존관계 관련해서 많이 사용.
 	+ <build>	: 프로젝트의 빌드방법을 지정합니다.
+	
+* Framework에 객체 생성을 요청하는 방법
+@Controller	: Controller 객체.
+	+ servlet-controller.xml에 설정해도 된다.
+@Service	: Service 객체.
+@Repository	: DAO
+
+* Spring은 기본적으로 forward로, 넘길때 기본적인 파일의 이름을 넘겨라
+
+ModelAndView, String, Void 를 Controller에서 반환. ~> 논리적인 페이지 이름만을 반환,
+servlet-context에서 이를 처리, ViewResolver를 통해 View를 반환.
+1) String		: 가고자 하는 jsp의 이름을 return을 통해 반환.
+2) void		: 같은 이름의 jsp를 찾아 들어간다.
+3) ModelAndView	:
+- model -> Sprint에서 request Scope를 갖는 UI 객체. forward 되는 페이지까지 그대로 전달.
+
+@RequestMapping(value = "/index.sinc", method = RequestMethod.GET)
+
+-> /index.sinc라는 요청이 들어왔을때, 밑의 메서드를 호출한다.
+
+* 기본 분기방식 : forward.
+
+Spring 내에서 mapper가 항시 돌아가고 있고, Mapper가 @RequestMapping이라는 Annotation을 만나면 해당 영역을 Mapping한다.
+보통 key값으로 URL , value값으로 메소드 혹은 클래스 등등을 받는다.
+
+<context:component-scan base-package="com.sinc.project.**" /> -> 모든 하위 패키지를 받겠다! (in servlet-context.xml)
+
+* 객체 생성에 대한 Annotaion
+--------------@Component를 상속받는다!
+1) @Controller
+2) @Service
+3) @Repository	: DAO에 건다는것을 다시 한번 유의
+
+* 의존성 주입에 대한 Annotation
+- 의존성이란?	: A와 B 사이에서 A가 B를 생성할때, Spring에서는 레퍼런스만 받아가도록 한다.
+1) @Resource
+2) @Autowired
+3) @Inject
+4) @Qualified
+<bean>
+	<property>
+	<constructor-arg> 라는 태그를 통해 의존성 주입. ~> 단독으로 사용할 수 없고, bean 안에서만 사용할 수 있다.
+</bean>
+
+root-context.xml에 <bean id="testS" class="com.sinc.project.test.service.TestServiceImpl"></bean> 하는것과
+목표하는 Class에서 @Resource(name="testS")하는건 같다!
