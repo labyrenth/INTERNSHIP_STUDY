@@ -1,0 +1,50 @@
+spring ~> 하나의 openSource FrameWork
+
+Sprint 특징
+1) Inversion Of Control
+- 객체 생성을 우리가 할 수 없다.
+- Spring Container에서 우리가 만든 클래스를 관리.
+- XML로 명세된 설정 파일을 통해 설정(Schema 기반 설정)하거나, @을 통해 설정 (Annotaion 기반 설정)
+* web으로 넘어가게 되면 xml을 이용한 설정 파일이 여러개 있게 된다.
+	1-1) Dependency Injection	: 의존관계 주입(이제부터 new 연산자로 객체를 만들지 않는다.) ~> 관계 설정을 통해서 의존관계 설정!
+	1-2) dependency Lookup	: 
+
+2) AOP
+- 관점 지향 프로그래밍
+
+3) SpringMVC
+
+* C:\사용자\.m2 폴더에서 Spring 프로젝트 관리.
+* Spring에서 외부와 상호작용하기 위한 코드는 resources에 존재.
+* webapp\resource	: 스크립트나 이미지 파일이 존재
+* WEB-INF\views		: jsp 파일을 여기에다가 넣는다.
+* context:component-scan base-package : 여기를 기준으로 의존성 체크등을 함.
+- DB Property, service 등록, dao 객체 등록 등등을 root-context.xml 에서 설정함.
+
+- web.xml
+	+ 스프링 프로젝트가 실행됐을 때 가장 먼저 읽어들이는 파일.
+	+ 웹프로젝트의 환경설정 파일.
+ 		++ 사실상 얘가 객체를 등록, 호출하는 Factory 역할.
+
+- servlet-context.xml - controller를 Handling하는 설정파일.
+- root-context.xml은 dao를 Handling하는 설정파일.
+
+web.xml안에
+	<servlet-mapping>
+		<servlet-name>appServlet</servlet-name>
+		<url-pattern>*.sinc</url-pattern>
+	</servlet-mapping>
+로 바꾸면? ~> *.sinc로 끝나는 모든 url을 servlet으로 넘김!
+
+- Spring은 Maven을 기반, Maven의 중앙저장소에서 library를 가져온다!
+
+* maven
+- 메이븐( Maven )은 war 또는 jar 파일을 빌드( build ), 라이브러리 의존성( dependency ) 해결, 컴파일( compile ) , 배포 ( deploy ) 등을 해결해주는 도구
+- pom.xml : 프로젝트에서 사용하는 오브젝트를 관리하는 설정파일. Maven이 참조한다.
+	+ <groupId>	: 프로젝트를 구분하는 값으로 사용됩니다. 도메인을 주로사용합니다.
+	+ <artifactId>	: 역시 프로젝트를 구분하는 값으로 사용되며, 프로젝트 명을 사용합니다.
+	+ <properties> 	: POM 내에서 공통적으로 사용되는 값들을 설정합니다. pom.xml 파일의 다른 곳에서 ${org.springframework-version} 처럼 사용합니다.
+	+ <repositories>: 라이브러리를 받아올 저장소를 지정합니다.
+	+ <dependencies>: 프로젝트에서 사용되는 라이브러리들을 지정합니다.
+	+ <exclusions>	: 여기에 있는 녀석을 쓰지 않겠다! -> 보통 의존관계 관련해서 많이 사용.
+	+ <build>	: 프로젝트의 빌드방법을 지정합니다.
