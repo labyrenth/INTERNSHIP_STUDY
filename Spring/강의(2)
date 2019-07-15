@@ -13,3 +13,63 @@ User -> filter -> DispatcherServlet -> Interceptor ->	| Controller ....
 @RequestParam = Request.getParameter와 유사.
 
 @RequestParam(name = "id", required=true) 시에, 해당 name에 매핑되는 객체가 null 이면 안된다.
+
+@RequestMapping(value="/login.sinc", method=RequestMethod.POST)
+	public String login(UserVO user, HttpSession session)
+	{
+		System.out.println("user ctrl login");
+		UserVO result = service.loginService(user);
+		if(result != null)
+		{	
+			session.setAttribute("user", user);
+			System.out.println(result);
+			return "redirect:/index.sinc";
+		}
+			//Spring에서 리다이렉트를 하는 방법
+		else
+		{
+			System.out.println("ID Not EXIST");
+			return "redirect:/loginForm.sinc";
+			//원래의 LoginForm으로 돌아가게 해야!
+		}
+	}
+
+이렇게 써도 되는데(세션에 데이터를 다이렉트로 심는다),
+
+@Controller
+@RequestMapping("/user")
+//model의 scope이 Session으로 변경.
+@SessionAttributes({"loginUser"})
+public class UserCtrl 
+{
+	@Resource(name = "userS")
+	private UserService service;
+	
+	@RequestMapping("/loginForm.sinc")
+	public String loginForm()
+	{
+		return "/user/login";
+	}
+	
+	@RequestMapping(value="/login.sinc", method=RequestMethod.POST)
+	public String login(UserVO user, Model model)
+	{
+		System.out.println("user ctrl login");
+		UserVO result = service.loginService(user);
+		if(result != null)
+		{	
+			model.addAttribute("loginUser", result);
+			System.out.println(result);
+			return "redirect:/index.sinc";
+		}
+			//Spring에서 리다이렉트를 하는 방법
+		else
+		{
+			System.out.println("ID Not EXIST");
+			return "redirect:/loginForm.sinc";
+			//원래의 LoginForm으로 돌아가게 해야!
+		}
+	}
+}
+
+으로 간접적으로 심어도 된다.
