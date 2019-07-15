@@ -103,3 +103,5 @@ Interceptor를 통해 Control 단의 코드 중복을 줄일수 있지 않을까
 		</select>
 		
 * INT 같은 경우는 # 쓰는것에 유의하자
+* HTML5 에서의 placeholder 속성: 워터마크의 개념.
+* Input type의 속성에 readonly를 쓰면 읽기 전용이 된다.
