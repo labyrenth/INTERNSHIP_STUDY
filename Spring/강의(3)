@@ -1,0 +1,169 @@
+@Controller
+//@RequesMapping("/bbs")
+public class TestController 
+{
+	//name ~> root-context.xml에 있는 id를 기반해서 찾는다!
+	//객체 생성이 없어졌다....! 프레임워크에 위임(Inversion of Control)
+	@Resource(name="testS")
+	private TestServiceImpl service;
+	
+	@RequestMapping("/dependency.sinc")
+	public String dependency(Model model)
+	{
+		System.out.println("test dependency");
+		model.addAttribute("msg", service.sayEcho("Pork Curtlet!~"));
+		
+		return "home";
+	}
+	
+	//메서드의 리턴타입은 보통 String.
+	@RequestMapping("/index.sinc")
+	public String main(Model model) 
+	{
+		System.out.println("test main"); 
+		// model -> Sprint에서 request Scope를 갖는 UI 객체
+		// forward 되는 페이지까지 그대로 전달. model.addAttribute("msg","Hi~~~~~"); 
+		return "home"; 
+	}
+	
+	@RequestMapping("/a.sinc")
+	public String doA()
+	{
+		//void ~ 같은 이름의 jsp를 찾아 들어간다.
+		System.out.println("test A");
+		return "/test/a";
+	}
+	
+	@RequestMapping("/b.sinc")
+	public ModelAndView doB()
+	{
+		//ModelAndView에서 심는 위치도 Request Scope.
+		System.out.println("test main");
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("home");
+		mv.addObject("msg", "Hi, Model And View!");
+		
+		return mv;
+	}
+	
+	@RequestMapping("nuclearwar.sinc")
+	public String nuclear(Model model)
+	{
+		model.addAttribute("msg","BOOOOOM");
+		return "home";
+	}
+}
+------------------------------------------------------------------------------------------
+<!-- Mapper : SQL을 담고 있는 영역. 동일하면 충돌난다. -->
+<mapper namespace="com.sinc.board">
+		<select id="getlist" resultType = "com.sinc.project.board.model.vo.BoardVO">
+
+			SELECT 	SEQ, TITLE, CONTENT, WRITER, TO_CHAR(REGDATE,'RRRR-MM-DD') AS REGDATE, VIEWCNT
+			FROM 	SPRING_BOARD_TBL
+			ORDER BY SEQ DESC
+			
+		</select>
+		<!-- ParameterType에서 Getter를 통해 #{}에 불러오며, Setter를 통해 ResultType으로 반환. -->
+		<select id="getpost" parameterType = "int" resultType = "com.sinc.project.board.model.vo.BoardVO">
+
+			SELECT 	SEQ, TITLE, CONTENT, WRITER,TO_CHAR(REGDATE,'RRRR-MM-DD') AS REGDATE, VIEWCNT, LIST
+			FROM 	SPRING_BOARD_TBL
+			WHERE 	SEQ = #{int}
+			
+		</select>
+		
+		<insert id="insertpost" parameterType = "com.sinc.project.board.model.vo.BoardVO"> 
+        	
+        	INSERT INTO SPRING_BOARD_TBL (SEQ,TITLE,CONTENT,WRITER)
+        	VALUES (BOARD_SEQ.NEXTVAL,#{title}, #{content}, #{writer})
+        	
+    	</insert>
+		
+		<!-- 동적 쿼리를 만들어야 한다...! -->
+		<select id="searchAjax" parameterType = "java.util.HashMap" resultType = "com.sinc.project.board.model.vo.BoardVO">
+			
+			SELECT 	SEQ, TITLE, CONTENT, WRITER, TO_CHAR(REGDATE,'RRRR-MM-DD') AS REGDATE, VIEWCNT
+			FROM 	SPRING_BOARD_TBL
+			<where>
+				<if test="type == 'title' ">
+					TITLE LIKE '%'||#{keyword}||'%'
+				</if>
+				<if test="type == 'writer' ">
+					WRITER LIKE '%'||#{keyword}||'%'
+				</if>
+			</where>
+			ORDER BY SEQ DESC
+			<!-- WHERE SALARY > 1000 에서 >는 XML에선 문자로 취급하지 않으므로 에러남-->
+			<!-- WHERE SALARY <![CDATA[>]]> 1000 를 통해 CDATA로 바꿔야함. 물론 전체를 CDATA로 바꾸는건 좋지 않음-->
+		</select>
+</mapper>
+
+--------------------------------------------------------
+
+public class AuthInterceptor extends HandlerInterceptorAdapter ~> Interceptor는 HandlerInterceptorAdaptor를 상속받아야 한다.
+
+이후 servlet-context.xml에 등록.
+
+<!-- 인터셉터 등록 -->
+	<beans:bean id = "sampleInter" 
+				class = "com.sinc.project.interceptor.TestInterceptor"/>
+				
+	<beans:bean id = "auth" 
+				class = "com.sinc.project.board.util.AuthInterceptor"/>
+				
+	<!-- 인터셉터'들'을 건다! -->
+	<interceptors>
+		<interceptor>
+			<!-- pre.sinc를 실행하면 sampleInter Bean을 실행하겠다! -->
+			<mapping path="/user/login.sinc"/>
+			<beans:ref bean="sampleInter"/>
+		</interceptor>
+		<interceptor>
+			<mapping path="/board/register.sinc"/>
+			<beans:ref bean="auth"/>
+		</interceptor>
+	</interceptors>
+  
+ ---------------------------------------------------------------------
+@Controller
+@RequestMapping("/user")
+//model의 scope이 Session으로 변경.
+@SessionAttributes({"loginUser"})
+public class UserCtrl 
+{
+	@Resource(name = "userS")
+	private UserService service;
+	
+	@RequestMapping("/loginForm.sinc")
+	public String loginForm()
+	{
+		return "/user/login";
+	}
+	
+	@RequestMapping(value="/login.sinc", method=RequestMethod.POST)
+	public String login(UserVO user, Model model)
+	{
+		System.out.println("user ctrl login");
+		UserVO result = service.loginService(user);
+		if(result != null)
+		{	
+			model.addAttribute("loginUser", result);
+			System.out.println(result);
+			return "redirect:/index.sinc";
+		}
+			//Spring에서 리다이렉트를 하는 방법. 위에서 loginUser를 Session Scope로 만들었으므로, redirect 해도 정상적으로 데이터 전달.
+		else
+		{
+			System.out.println("ID Not EXIST");
+			return "redirect:/loginForm.sinc";
+		}
+	}
+	
+	@RequestMapping("/logout.sinc")
+	public String logout(SessionStatus status)
+	{
+		System.out.println("user ctrl logout");
+		status.setComplete();
+		return "redirect:/index.sinc";
+	}
+}
