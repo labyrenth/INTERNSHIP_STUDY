@@ -1,0 +1,15 @@
+filter		: Servlet을 건드린다. web.xml에서 설정.
+// Web은 Interceptor와 AOP를 쓸 수 없다.
+interceptor	: parameter 값을 확인, 바른 parameter 값이 적합하지 않으면 Interceptor에서 응답. servlet-context.xml에서 설정.
+
+AOP		: Aspect of Programming -> Spring에서 관리하는 영역의 실행 전/후를 처리. 5개의 시점을 가지고 있다. root-context.xml에서 설정.
+
+User -> filter -> DispatcherServlet -> Interceptor ->	| Controller ....
+							| Spring에서 관리하는 영역
+							
+* filter는 사용자의 요청이 POST 방식일때만 적용 가능. GET 방식일때는 사용 불가!
+	- 굳이 filter를 하려고 하면 복잡한 변형과정이 필요하기 때문에, 보통 GET방식은 영어/숫자로만 값을 받는게 대부분.
+	
+@RequestParam = Request.getParameter와 유사.
+
+@RequestParam(name = "id", required=true) 시에, 해당 name에 매핑되는 객체가 null 이면 안된다.
