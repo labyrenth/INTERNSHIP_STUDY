@@ -142,7 +142,7 @@ RedirectAttributes 객체는 사실상 Redirect 되는 View와 한 쌍이라고 
 ---------------------------------------------------------
 /* 
 *	ModelAndView, String, void가 아닌 다른 반환값이 있을때? @ResponseBody를 넣는다.
-*	
+*	Asynchronous 통신을 위해 주로 사용.
 */
 public class SampleController5 {
 
