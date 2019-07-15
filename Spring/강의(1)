@@ -94,3 +94,64 @@ Spring 내에서 mapper가 항시 돌아가고 있고, Mapper가 @RequestMapping
 
 root-context.xml에 <bean id="testS" class="com.sinc.project.test.service.TestServiceImpl"></bean> 하는것과
 목표하는 Class에서 @Resource(name="testS")하는건 같다!
+------------------------------------------------------------
+@ModelAttribute 를 통해 parameter를 model에 "msg" 변수에 심었다!
+public String doC( @ModelAttribute("msg") String msg){
+		
+		logger.info("doC called..............................");
+		
+		return "result";
+		
+	}
+	
+@RequestMapping("/doD")
+	public String doD(Model model){
+		
+		//make sample data
+		ProductVO product = new ProductVO("Sample Product", 10000);
+		
+		logger.info("doD");
+	
+		model.addAttribute(product);
+		
+		return "productDetail";
+		
+	}
+# String은 view의 정보만 리턴하기 때문에, 데이터를 심기 위해선 Model을 받아서 이 안에 Data를 넣어야 한다.
+
+@RequestMapping("/doE")
+	public String doE(RedirectAttributes rttr){
+		logger.info("doE called but redirect to /doF.............");
+		
+		rttr.addFlashAttribute("msg", "This is the Message!! with redirected");
+		return "redirect:/doF";
+	}
+
+@RequestMapping("/doF")
+	public void doF(@ModelAttribute("msg") String msg){
+		
+		logger.info("doF called..............."+ msg);
+	}
+	
+기본적으로 Spring은 Forward 인데 (request scope에 값 저장), redirect시 이는 유지되지 않음을 기억하자.
+
+하지만 RedirectAttributes rttr에 값을 저장함으로써, redirect를 하더라도 값을 심어서 넘길 수 있게 된다.
+
+RedirectAttributes 객체는 사실상 Redirect 되는 View와 한 쌍이라고 보면 된다.
+
+---------------------------------------------------------
+/* 
+*	ModelAndView, String, void가 아닌 다른 반환값이 있을때? @ResponseBody를 넣는다.
+*	
+*/
+public class SampleController5 {
+
+	@RequestMapping("/doJSON")
+	public @ResponseBody ProductVO doJSON(){
+		
+		ProductVO vo = new ProductVO("샘플상품",30000);
+		
+		return vo;
+		
+	}
+}
