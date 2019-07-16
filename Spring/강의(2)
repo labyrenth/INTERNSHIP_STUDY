@@ -2,7 +2,7 @@ filter		: Servlet을 건드린다. web.xml에서 설정.
 // Web은 Interceptor와 AOP를 쓸 수 없다.
 interceptor	: parameter 값을 확인, 바른 parameter 값이 적합하지 않으면 Interceptor에서 응답. servlet-context.xml에서 설정.
 
-AOP		: Aspect of Programming -> Spring에서 관리하는 영역의 실행 전/후를 처리. 5개의 시점을 가지고 있다. root-context.xml에서 설정.
+AOP		: Aspect Oriented Programming -> Spring에서 관리하는 영역의 실행 전/후를 처리. 5개의 시점을 가지고 있다. root-context.xml에서 설정.
 
 User -> filter -> DispatcherServlet -> Interceptor ->	| Controller ....
 							| Spring에서 관리하는 영역
