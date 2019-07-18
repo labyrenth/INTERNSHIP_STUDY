@@ -1,0 +1,21 @@
+1) NODEJS 설치 후 npm install -g truffle 로 TRUFFLE 설치.
+2) 이후 폴더에 TRUFFLE INIT로 기본 파일 설치 실행.
+3) 이후 TRUFFLE COMPLIE 시 BUILD 폴더가 생긴 것을 확인할 수 있다.
+
+pragma solidity ^0.5.8;
+
+contract HelloWorld{
+	string public greeting;
+	contructor(string memory _greeting) public{
+		greeting = _greeting;
+	}
+	
+	function setGreeting(string memory _greeting) public{
+		greeting = _greeting;
+	}
+	
+	function say() public view returns(string memory)
+	{
+		return greeting;
+	}
+}
