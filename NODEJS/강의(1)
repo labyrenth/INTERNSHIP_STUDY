@@ -21,3 +21,12 @@ contract HelloWorld{
 }
 
 파일이름은 상관없고, 확장자를 *.sol 로 만든 뒤에 contracts(build 안에 넣는거 아님) 폴더 안에 넣는다.
+
+js 파일을 migration에 넣는다.
+	+ 이때 이름은 숫자_이름.js 형태로 되어있어, 숫자 순서대로 migration 된다.
+
+truffle networks
+
+hello = await HelloWorld.at("0x34b80220bFF7e87d2cA111Aa2594c51A37976C76")
+
+로 console의 변수에 HelloWorld의 주소값을 
