@@ -30,3 +30,22 @@ truffle networks
 hello = await HelloWorld.at("0x34b80220bFF7e87d2cA111Aa2594c51A37976C76")
 
 로 console의 변수에 HelloWorld의 주소값을 
+
+
+--------------
+
+fungible : 서로 동일한 값(가치)으로 바꿀 수 있는 것, 대체할 수 있는 것
+EX) 1000원 지폐, 100원 동전
+
+Non-Fungible : 서로 가치가 상이하여 교환 할 수 없는 것, 대체 불가(고유한 ID)
+
+
+//메타 마스크 계정
+
+module.exports = function(callback)
+{
+	web3.eth.getAccounts().then((accounts) => web3.eth.sendTransaction({from:accounts[2],
+		to: 0xCEa2d26F75E472b1B8191dA87D179Af1b7816047
+		value : web3.utils.toWei("10","ether")}, callback);
+	});
+}
