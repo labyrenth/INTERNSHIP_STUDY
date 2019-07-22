@@ -15,4 +15,4 @@ VPC	네트워크
 EC2	서버
 
 Project		Default VPC
-		Network
+		Network 별도
