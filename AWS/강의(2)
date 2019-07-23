@@ -36,5 +36,21 @@ Amazon Aurora
 - 다만 규모가 커질경우 세부 서비스를 개별로 관리하는 데 어려움이 있을 수 있음.
 	+ 이런 것이 Dev-Ops와 연결됨.
 		++ Dev-ops : 간단하게, 개발하는 사람이 Operation도 해라.
-		
-* Load Balance
+
+* CDN
+- 콘텐츠 전송 네트워크(Content delivery network 또는 content distribution network (CDN))는 콘텐츠를 효율적으로 전달하기 위해 여러 노드를 가진 네트워크에 데이터를 저장하여 제공하는 시스템을 말한다.
+- 중간에 원본의 콘텐츠들을 가진 스토리지가 있고, 그것들을 해당하는 지역에 가까운 곳에 복사하는 Edge Location이라는 캐시 서버의 스토리지에 복사해 두었다가 해당하는 콘텐츠를 불러들이면 가장 가까운 곳에서 그 해당하는 콘텐츠 들을 제공.
+- 콘텐츠가 필요한 호스트의 가장가까운 곳에 서비스를 제공하기 위한 Edge의 배치를 POP(Point of Presence= 인터넷 액세스 포인트)를 구축
+- 인터넷 서비스 제공자에 직접 연결되어 데이터를 전송하므로, 콘텐츠 병목을 피할 수 있는 장점이 있다.
+
+* Region, Availability Zone, CloudFront, Edge Location
+	1) Region
+	- Region은 AWS의 모든 서비스가 위치하고 있는 물리적인 장소입니다.
+	2) Availability Zone
+	- Availability Zone(AZ) 은 Region 내의 서버를 분리 시켜놔서 만약 한 쪽 AZ가 이상으로 재해를 입어도 한쪽에서 돌아가게 할 수 있는 가용성을 높여주는 구분. 즉, IDC라고 생각하시면 됩니다.
+	3) CloudFront
+	- 데이터, 동영상, 애플리케이션 및 API를 전송하는 아마존의 고속 콘텐츠 전송 네트워크(CDN) 서비스
+	4) Edge Location
+	- CloudFront의 캐시 서버. 
+	
+
