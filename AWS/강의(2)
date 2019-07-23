@@ -1,0 +1,12 @@
+self- Managed = Amazon Ec2
+Fully Managed = Amazon RDS(관계형 데이터베이스), Amazon DynamoDB(NoSQL 서비스. 아마존 자체개발), Amazon Neptune(그래픽 QL Database), Amazon DocumentDB(MongoDB 호환)
+
+RDS와 NoSQL의 차이? -> NoSQL은 중복 저장 가능, Query문이 짧다. RDS는Query문이 좀 길다.
+
+Amazon Aurora
+- MySQL 또는 PostGres 호환
+- 자동으로 스토리지 확장(최대 64TB)
+- 최대 15개의 읽기 전용 복제본
+- Amazon S3로 지속적인(증분) 백업
+- 3개의 AZ의 6개의 데이터 복제
+- Serverless 옵션
