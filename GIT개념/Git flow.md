@@ -4,6 +4,8 @@
 
 + Git Flow는 기본적으로 브랜치를  feature - develop - release - hotfix - master 5단계로 나누어 코드를 관리한다. 각 브랜치들의 목적은 다음과 같다.
 
+![screenshot](./img/git_flow.png)
+
 1) Master 브랜치
 + (메인 배포판) 실제로 클라이언트에서 이용하는 최종 형태의 메인 브랜치이다.
 
@@ -23,4 +25,4 @@
 + (긴급 오류 수정) Hotfix 브랜치는 배포된 Master 브랜치에서 예기치 못한 버그가 발생했을 때 급하게 Develop, Feature 브랜치를 거치지 않고 버그를 수정하는 단계이다.
 + 수정이 완료되면 Develop과 Master 브랜치로 병합된다.
 
-![screenshot](./img/git_flow.png)
+
