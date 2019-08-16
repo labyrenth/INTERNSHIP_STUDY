@@ -23,3 +23,4 @@
     모든 변화를 Virtual DOM을 통해 묶고 이를 실제 DOM으로 전달한다.
 
 4. React의 특징
+![screenshot](./img/mvc_flux.png)
