@@ -23,4 +23,7 @@
     모든 변화를 Virtual DOM을 통해 묶고 이를 실제 DOM으로 전달한다.
 
 4. React의 특징
-![screenshot](./img/mvc_flux.png)
++ React는 양방향 바인딩이 전제되는 MVC 패턴과는 다른 특징을 보인다.
+페이스북에서 Flux라고 부르는 패턴이 적용되어 있는데, 단방향 바인딩이 특징이다.
+![screenshot](./img/mvc-flux.png)
+
