@@ -32,3 +32,9 @@
 
 + React의 아키텍쳐는 기존 MVC 패턴에서 View에 집중한 형태이다. 여기서 View는 스토어에서 데이터를 가져오는 한편, 자식 뷰로 데이터를 전달하기도 하므로 단순 View라기 보다는 View-controller에 가깝다.
 + React에서는 State가 View를 업데이트 한다. 그러나 View는 State를 직접 업데이트 할 수 없다. View가 State의 정보를 업데이트하기 위해서는 callback을 통해 state를 바꿔야 하며, 이렇게 바뀐 Staterk View를 업데이트해 새롭게 정의한다. 실제로는 setState()를 통해 state를 업데이트 하며, State가 업데이트 되면 View는 다시 렌더링된다.
+
+
+5. Component 기반 구조
++ React는 UI(혹은 View)를 여러 컴포넌트(Component) 쪼개서 만든다. 한 페이지 안에서도 Header, Footer 등 각 부분을 독립된 컴포넌트(Component)로 만들고, 컴포넌트들을 조립해 화면을 구성한다.
+
++ 컴포넌트 기반이라는 점은 React의 큰 장점이다. 여러 화면에서 재사용되는 코드를 반복해 입력할 필요 없이 컴포넌트만 임포트해 사용하면 된다. 또, 기능단위, UI단위로 쪼개어 코드를 관리하므로, 어플리케이션이 복잡해져도 코드의 유지보수가 용이하다.
