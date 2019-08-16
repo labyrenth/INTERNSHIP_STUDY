@@ -27,6 +27,8 @@
 페이스북에서 Flux라고 부르는 패턴이 적용되어 있는데, 단방향 바인딩이 특징이다.
 + 위 도표는 MVC 패턴과 Flux 패턴의 차이를 보여준다. Flux 패턴은 일방통행이다. 따라서 단방향 바인딩이라고 한다.
 이를 통해 복잡한 앱에서도 데이터 흐름에서 일어나는 변화가 보다 더 예측가능해지게 되었다.
+
 ![screenshot](./img/mvc-flux.png)
+
 + React의 아키텍쳐는 기존 MVC 패턴에서 View에 집중한 형태이다. 여기서 View는 스토어에서 데이터를 가져오는 한편, 자식 뷰로 데이터를 전달하기도 하므로 단순 View라기 보다는 View-controller에 가깝다.
 + React에서는 State가 View를 업데이트 한다. 그러나 View는 State를 직접 업데이트 할 수 없다. View가 State의 정보를 업데이트하기 위해서는 callback을 통해 state를 바꿔야 하며, 이렇게 바뀐 Staterk View를 업데이트해 새롭게 정의한다. 실제로는 setState()를 통해 state를 업데이트 하며, State가 업데이트 되면 View는 다시 렌더링된다.
